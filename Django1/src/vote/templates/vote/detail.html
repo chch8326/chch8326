@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>투표 - {{ question.question_text }}</title>
+</head>
+<body>
+	<h1>{{ question.question_text }}</h1>
+	<form action = "{% url 'vote' %}" method = "post">
+		{% csrf_token %}
+		{% for c in question.choice_set.all %}
+			<!-- 해당 Question 객체와 연결된 Choice 객체 추출 및 radio 버튼 생성 -->
+			<!-- 텟플릿에서는 함수 호출 시 매개변수를 사용할 수 없다. 따라서 매개변수를 사용하치 않는 함수만 사용이 가능하다. -->
+			<!-- question.choice_set(객체.모델클래스명_set): 외래키로 설정된 모델클래스에서 자기 자신을 참조하는 객체를 추출한다.
+		                                                                                                           해당 Question 모델을 외래키로 참조하는 모든 Choice 객체를 추출한다. -->
+		    <!-- c 변수: Question 객체와 연결된 Choice 객체 -->
+		    <!-- forloop.counter: 현재 반복횟수를 의미하며 for문 안에서 사용 가능하다.  -->                                                                                                      
+			<input type = "radio" name = "choice" id = "choice{{ forloop.counter }}" value = "{{ c.id }}"/>
+			<label for = "choice{{ forloop.counter }}">{{ c.choice_text }}</label>
+			<a href = "{% url 'updateC' c.id %}">선택지 수정</a>
+			<a href = "{% url 'deleteC' c.id %}">삭제</a>
+		{% endfor %}
+		<input type = "submit" value = "투표">
+	</form>
+	<a href = "{% url 'index' %}">메인으로 가기</a>
+</body>
+</html>

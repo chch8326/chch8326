@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>회원 가입</title>
+</head>
+<body>
+	{% if error %}
+		<p><b>{{ error }}</b></p>
+	{% endif %}
+	<form action="" method = "post">
+		{% csrf_token %}
+		<table>
+			{{ form.as_table }}
+		</table>
+		<input type = "submit" value = "회원 가입">
+		<input type = "reset" value = "초기화">
+	</form>
+</body>
+</html>
